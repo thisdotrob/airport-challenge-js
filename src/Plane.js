@@ -2,11 +2,13 @@ function Plane() {
   this.flying = true;
 };
 
-Plane.prototype.land = function(){
+Plane.prototype.land = function(airport){
   if (this.flying === false) {
     throw new Error('Already landed');
   } else {
     this.flying = false;
+    this.location = airport
+    airport.land(this);
   };
 };
 
