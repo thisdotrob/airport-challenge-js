@@ -4,13 +4,11 @@ describe('plane', function() {
   var weather;
 
   beforeEach(function() {
-
-
     airport = { land: function(){} };
     spyOn(airport, 'land');
 
-    weather = { stormy: function(){} } ;
-    spyOn(weather, 'stormy').and.returnValue(false);
+    weather = { isStormy: function(){} };
+    spyOn(weather, 'isStormy').and.returnValue(false);
 
     plane = new Plane(weather);
   });
@@ -37,7 +35,7 @@ describe('plane', function() {
       expect(airport.land).toHaveBeenCalled();
     });
     it('raises error if too stormy to land', function(){
-      weather.stormy.and.returnValue(true);
+      weather.isStormy.and.returnValue(true);
       var land = function(){ plane.land(airport); }
       expect(land).toThrowError('Too stormy to land');
     })
@@ -56,7 +54,7 @@ describe('plane', function() {
     it('raises error if too stormy', function(){
       var takeOff = function(){ plane.takeOff(); }
       plane.land(airport);
-      weather.stormy.and.returnValue(true);
+      weather.isStormy.and.returnValue(true);
       expect(takeOff).toThrowError('Too stormy to take off');
     })
   });
