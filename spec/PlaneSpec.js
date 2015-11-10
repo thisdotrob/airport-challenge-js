@@ -10,5 +10,17 @@ describe('plane', function() {
       expect(plane.flying).toEqual(true);
     });
 
+    it('should land a plane', function(){
+      plane.land();
+      expect(plane.flying).toEqual(false)
+    });
+  });
+
+  describe('taking off', function(){
+    it('sets the plane to flying', function(){
+      plane.land();
+      plane.take_off();
+      expect(plane.flying).toEqual(true);
+    });
   });
 });
