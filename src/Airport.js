@@ -1,29 +1,31 @@
 function Airport() {
-  this.capacity = 20;
-  this.planes = []
+  this.CAPACITY = 20;
+  this._hangar = [];
 }
+
+Airport.prototype.planes = function(){ return this._hangar; };
 
 Airport.prototype.land = function(plane) {
   if (this._isFull()) {
     throw new Error('Airport full');
   } else {
-    this.planes.push(plane);
+    this._hangar.push(plane);
   };
 };
 
 Airport.prototype.takeOff = function(plane) {
-  index = this.planes.indexOf(plane);
+  index = this._hangar.indexOf(plane);
   if (index === -1) {
     throw new Error('Plane not at airport');
   } else {
-    this.planes.splice(index, 1);
+    this._hangar.splice(index, 1);
   };
 };
 
 Airport.prototype.setCapacity = function(capacity) {
-  this.capacity = capacity;
+  this.CAPACITY = capacity;
 };
 
 Airport.prototype._isFull = function() {
-  return this.planes.length === this.capacity - 1;
+  return this._hangar.length === this.CAPACITY - 1;
 }

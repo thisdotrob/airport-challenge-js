@@ -1,5 +1,7 @@
-function Weather(){};
+function Weather(){
+  this._PROBABILITY = 0.5;
+};
 
 Weather.prototype.isStormy = function(){
-  return Math.random() < 0.5;
+  return (Math.random() < this._PROBABILITY);
 };

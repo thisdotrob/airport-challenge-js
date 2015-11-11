@@ -1,50 +1,41 @@
 describe('airport', function() {
   var airport;
   var plane;
+  var land;
+  var takeOff;
 
   beforeEach(function() {
-    plane = {};
     airport = new Airport();
+    plane = jasmine.createSpy('plane');
+    land = function(){ airport.land(plane); }
+    takeOff = function(){ airport.takeOff(plane); };
   });
 
-  describe('initialize', function() {
-    it('has a default capacity', function() {
-      expect(airport.capacity).toEqual(20);
-    });
-    it('has an empty array of planes', function() {
-      expect(airport.planes).toEqual([]);
-    });
+  it('has a default capacity', function() {
+    expect(airport.CAPACITY).toEqual(20);
   });
-
-  describe('land', function() {
-    it('adds a plane to the array', function() {
-      airport.land(plane);
-      expect(airport.planes.pop()).toEqual(plane);
-    });
-    it('raises an error if the array is full', function() {
-      var land = function(){ airport.land(plane); }
-      for(i=1; i<20; i++) { land(); };
-      expect(land).toThrowError('Airport full');
-    });
+  it('is initialized containing no planes', function() {
+    expect(airport.planes()).toEqual([]);
   });
-
-  describe('takeOff', function() {
-    it('removes the plane from the array', function() {
-      airport.land(plane);
-      airport.takeOff(plane);
-      expect(airport.planes).toEqual([]);
-    });
-    it('raises an error if plane not at airport', function() {
-      var takeOff = function(){ airport.takeOff(plane); };
-      expect(takeOff).toThrowError('Plane not at airport');
-    });
+  it('can land a plane', function() {
+    land();
+    expect(airport.planes()).toEqual([plane]);
   });
-
-  describe('setCapacity', function() {
-    it('modifies the airport\'s capacity', function() {
-      airport.setCapacity(1);
-      expect(airport.capacity).toEqual(1);
-    });
+  it('can takeoff a plane', function() {
+    land();
+    takeOff();
+    expect(airport.planes()).toEqual([]);
+  });
+  it('raises an error if the hangar is full', function() {
+    for(i=1; i<20; i++) { land(); };
+    expect(land).toThrowError('Airport full');
+  });
+  it('raises an error if plane not at airport', function() {
+    expect(takeOff).toThrowError('Plane not at airport');
+  });
+  it('modifies the airport\'s capacity', function() {
+    airport.setCapacity(1);
+    expect(airport.CAPACITY).toEqual(1);
   });
 
 });
